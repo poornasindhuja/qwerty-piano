@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sounds</title>
+    <link href="soundsStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- <style>
+        #content {
+            width: 100%;
+            height: 1024px;
+            background-image: url("wave.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            align-content: center;
+        }
+
+        .buttons {
+            align-content: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .buttons>button {
+            margin: 10px;
+            width: 100px;
+            align-content: center;
+            text-align: center;
+        }
+
+        .heading {
+            color: lightcoral;
+            text-align: center;
+            padding-top: 30px;
+            font-family: 'Curlz MT';
+        }
+    </style>-->
+</head>
+
+<body class=".container-fluid " onkeydown="resultCharCode(event)">
+
+    <div id="content">
+        <h1 class="heading">Press Keys & Enjoy Sounds</h1>
+        <img src="images.png" id="musical-notes" style="visibility: hidden;">
+        <div class="btn-group buttons">
+            <button onclick="playMusic(this)" class="musical-key" data-audio="clap" id="a">A <br>clap</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="hihat" id="s">S<br>hihat</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="kick" id="d">D<br>Kick</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="openhat" id="f">F<br>Openhat</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="boom" id="g">G<br>Boom</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="ride" id="h">H<br>Ride</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="snare" id="j">J<br>Snare</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="tom" id="k">K<br>Tom</button>
+            <button onclick="playMusic(this)" class="musical-key" data-audio="tink" id="l">L<br>Tink</button>
+        </div>
+        <div style="clear: both;"></div>
+        <button onclick="startRecord()" id='start-recording' record='false'>Start Record</button>
+        <p id='comment' style="visibility: hidden;">Your Sounds Are Recording</p>
+        <button onclick="stopRecord()" id='stop-recording'>Stop Record</button>
+        <button onclick="playRecorded()" id='play-recording'>Play</button>
+    </div>
+
+    <script>
+        function resultCharCode(event) {
+            var ch = event.key;
+            document.getElementById(ch.toLowerCase()).click();
+        }
+
+        function startRecord(){
+            document.getElementById("start-recording").removeAttribute("record");
+            document.getElementById("start-recording").setAttribute("record","true");
+            document.getElementById("comment").style.visibility='visible';
+        }
+
+        function stopRecord(){
+            document.getElementById("start-recording").removeAttribute("record");
+            document.getElementById("start-recording").setAttribute("record","false");
+            document.getElementById("comment").style.visibility='hidden';
+        }
+
+        function playRecorded(musicSounds,index){
+            
+            musicSounds=musicSounds||JSON.parse(localStorage.getItem("sounds-data"));
+            index=index||0;
+            if(musicSounds.length<index)
+            return;
+            new Audio(`${musicSounds[index]}.wav`).play();
+                setTimeout(() => {  
+                   // new Audio(`${musicSounds[index]}.wav`).play();
+                   index=index+1;
+                   playRecorded(musicSounds,index);
+                }, 1000);
+        }
+       
+        var sounds=[];
+        function playMusic(event) {
+            var sound=event.getAttribute("data-audio");
+            var currentElementId= event.getAttribute("id");
+            var audioPlayer = new Audio(`${sound}.wav`);
+            document.getElementById(currentElementId).classList.add('play'); 
+            document.getElementById("musical-notes").style.visibility='visible';
+            //document.getElementById("content").classList.add('music');
+            setInterval(() => {
+                document.getElementById(currentElementId).classList.remove('play');
+                document.getElementById("musical-notes").style.visibility='hidden';
+            }, 2000);
+            var record=document.getElementById("start-recording").getAttribute("record");
+            if(record=="true"){
+                sounds.push(sound);
+                localStorage.setItem("sounds-data",JSON.stringify(sounds));
+            }
+
+            audioPlayer.play();
+        }
+    </script>
+</body>
+
+</html>
