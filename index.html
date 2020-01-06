@@ -63,20 +63,26 @@
         <div style="clear: both;"></div>
         <button onclick="startRecord()" id='start-recording' record='false'>Start Record</button>
         <p id='comment' style="visibility: hidden;">Your Sounds Are Recording</p>
-        <button onclick="stopRecord()" id='stop-recording'>Stop Record</button>
-        <button onclick="playRecorded()" id='play-recording'>Play</button>
+        <button onclick="stopRecord()" id='stop-recording' style="visibility: hidden;">Stop Record</button>
+        <button onclick="playRecorded()" id='play-recording' style="visibility: hidden;">Play</button>
     </div>
 
     <script>
+        if(localStorage.getItem("sound-intervals")!=null){
+            document.getElementById("play-recording").style.visibility='visible';
+        }
         function resultCharCode(event) {
             var ch = event.key;
             document.getElementById(ch.toLowerCase()).click();
         }
-
+        var starttime;
         function startRecord(){
+            starttime=Date.now();
             document.getElementById("start-recording").removeAttribute("record");
             document.getElementById("start-recording").setAttribute("record","true");
             document.getElementById("comment").style.visibility='visible';
+            document.getElementById("stop-recording").style.visibility='visible';
+            document.getElementById("play-recording").style.visibility='visible';
         }
 
         function stopRecord(){
@@ -85,9 +91,9 @@
             document.getElementById("comment").style.visibility='hidden';
         }
 
-        function playRecorded(musicSounds,index){
-            
+        function playRecorded(musicSounds,intervals,index){
             musicSounds=musicSounds||JSON.parse(localStorage.getItem("sounds-data"));
+            intervals=intervals||JSON.parse(localStorage.getItem("sound-intervals"));
             index=index||0;
             if(musicSounds.length<index)
             return;
@@ -95,11 +101,12 @@
                 setTimeout(() => {  
                    // new Audio(`${musicSounds[index]}.wav`).play();
                    index=index+1;
-                   playRecorded(musicSounds,index);
-                }, 1000);
+                   playRecorded(musicSounds,intervals,index);
+                }, intervals[index]);
         }
-       
+        
         var sounds=[];
+        var timeIntervals=[];
         function playMusic(event) {
             var sound=event.getAttribute("data-audio");
             var currentElementId= event.getAttribute("id");
@@ -114,7 +121,11 @@
             var record=document.getElementById("start-recording").getAttribute("record");
             if(record=="true"){
                 sounds.push(sound);
+                var delay=Date.now()-starttime;
+                starttime=Date.now();
+                timeIntervals.push(delay);
                 localStorage.setItem("sounds-data",JSON.stringify(sounds));
+                localStorage.setItem("sound-intervals",JSON.stringify(timeIntervals));
             }
 
             audioPlayer.play();
