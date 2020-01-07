@@ -8,47 +8,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <!-- <style>
-        #content {
-            width: 100%;
-            height: 1024px;
-            background-image: url("wave.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
-            align-content: center;
-        }
-
-        .buttons {
-            align-content: center;
-            margin: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-        }
-
-        .buttons>button {
-            margin: 10px;
-            width: 100px;
-            align-content: center;
-            text-align: center;
-        }
-
-        .heading {
-            color: lightcoral;
-            text-align: center;
-            padding-top: 30px;
-            font-family: 'Curlz MT';
-        }
-    </style>-->
+    
 </head>
 
-<body class=".container-fluid " onkeydown="resultCharCode(event)">
+<body class=".container-fluid " id="page" onkeydown="resultCharCode(event)">
 
     <div id="content">
-        <h1 class="heading">Press Keys & Enjoy Sounds</h1>
-        <img src="images.png" id="musical-notes" style="visibility: hidden;">
+        <h1 class="heading">Feeling bored with keys sound. Try Now its interesting </h1>
         <div class="btn-group buttons">
             <button onclick="playMusic(this)" class="musical-key" data-audio="clap" id="a">A <br>clap</button>
             <button onclick="playMusic(this)" class="musical-key" data-audio="hihat" id="s">S<br>hihat</button>
@@ -67,7 +33,7 @@
         <button onclick="playRecorded()" id='play-recording' style="visibility: hidden;">Play</button>
     </div>
 
-    <script>
+   <!-- <script>
         if(localStorage.getItem("sound-intervals")!=null){
             document.getElementById("play-recording").style.visibility='visible';
         }
@@ -91,6 +57,20 @@
             document.getElementById("comment").style.visibility='hidden';
         }
 
+        function createNote(source){
+            var image=document.createElement('img');
+            var id=Date.now().toString();
+            image.setAttribute('id',id);
+            image.src=source+".jpg";
+            image.style.width='40px';
+            image.style.height='40px';
+            image.classList.add('img-fly');
+            document.getElementById("page").appendChild(image);
+            setInterval(() => {
+                document.getElementById("page").removeChild(image);
+            }, 2000);
+        }
+
         function playRecorded(musicSounds,intervals,index){
             musicSounds=musicSounds||JSON.parse(localStorage.getItem("sounds-data"));
             intervals=intervals||JSON.parse(localStorage.getItem("sound-intervals"));
@@ -110,13 +90,14 @@
         function playMusic(event) {
             var sound=event.getAttribute("data-audio");
             var currentElementId= event.getAttribute("id");
+            createNote(sound);
             var audioPlayer = new Audio(`${sound}.wav`);
             document.getElementById(currentElementId).classList.add('play'); 
-            document.getElementById("musical-notes").style.visibility='visible';
+            //document.getElementById("musical-notes").style.visibility='visible';
             //document.getElementById("content").classList.add('music');
             setInterval(() => {
                 document.getElementById(currentElementId).classList.remove('play');
-                document.getElementById("musical-notes").style.visibility='hidden';
+                //document.getElementById("musical-notes").style.visibility='hidden';
             }, 2000);
             var record=document.getElementById("start-recording").getAttribute("record");
             if(record=="true"){
@@ -127,10 +108,10 @@
                 localStorage.setItem("sounds-data",JSON.stringify(sounds));
                 localStorage.setItem("sound-intervals",JSON.stringify(timeIntervals));
             }
-
             audioPlayer.play();
         }
-    </script>
+    </script>-->
+    <script src="musicScript.js" ></script>
 </body>
 
 </html>
