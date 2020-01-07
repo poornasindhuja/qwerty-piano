@@ -19,7 +19,7 @@ function startRecord() {
     startButton.setAttribute("record", "true");
     startButton.style.visibility='hidden';
     document.getElementById("stop-recording").style.visibility = 'visible';
-    document.getElementById("play-recording").style.visibility = 'visible';
+    document.getElementById("play-recording").style.visibility = 'hidden';
 }
 
 function stopRecord() {
@@ -28,34 +28,62 @@ function stopRecord() {
     startButton.setAttribute("record", "true");
     startButton.style.visibility='visible';
     document.getElementById("stop-recording").style.visibility='hidden';
+    document.getElementById("play-recording").style.visibility = 'visible';
     timeIntervals=[];
 }
 
-function createNote(source) {
-    var image = document.createElement('img');
-    var id = Date.now().toString();
-    image.setAttribute('id', id);
-    image.src = source + ".jpg";
-    image.style.width = '40px';
-    image.style.height = '40px';
-    image.classList.add('img-fly');
-    document.getElementById("page").appendChild(image);
-    setTimeout(() => {
-        document.getElementById("page").removeChild(image);
-    }, 2000);
+var canIPlay=true;
+var pauseIndex,musicSounds,intervals;
+
+function playRecorded() {
+    document.getElementById('start-recording').style.visibility='hidden';
+    document.getElementById("play-recording").style.visibility = 'hidden';
+    document.getElementById("pause").style.visibility='visible';
+    document.getElementById("stop").style.visibility="visible";
+    play();
 }
 
-function playRecorded(musicSounds, intervals, index) {
-    musicSounds = musicSounds || JSON.parse(localStorage.getItem("sounds-data"));
-    intervals = intervals || JSON.parse(localStorage.getItem("sound-intervals"));
-    index = index || 0;
-    if (musicSounds.length < index)
-        return;
-    new Audio(`${musicSounds[index]}.wav`).play();
-    setTimeout(() => {
-        index = index + 1;
-        playRecorded(musicSounds, intervals, index);
-    }, intervals[index]);
+function pause(){
+    document.getElementById("resume").style.visibility="visible";
+    document.getElementById("pause").style.visibility="hidden";
+    canIPlay=false;
+}
+
+function resume(){
+    document.getElementById("resume").style.visibility="hidden";
+    document.getElementById("pause").style.visibility="visible";
+    canIPlay=true;
+    play(musicSounds,intervals,pauseIndex);
+}
+
+function stop(){
+    canIPlay=false;
+    document.getElementById("stop").style.visibility="hidden";
+    document.getElementById("resume").style.visibility="hidden";
+    document.getElementById("pause").style.visibility="hidden";
+    document.getElementById("start-recording").style.visibility = 'visible';
+    document.getElementById("play-recording").style.visibility = 'visible';
+}
+
+function play(musicSounds, intervals, index){
+    if (canIPlay == true) {
+        musicSounds = musicSounds || JSON.parse(localStorage.getItem("sounds-data"));
+        intervals = intervals || JSON.parse(localStorage.getItem("sound-intervals"));
+        index = index || 0;
+        if (index > musicSounds.length - 1) {
+            document.getElementById("start-recording").style.visibility = 'visible';
+            document.getElementById("play-recording").style.visibility = 'visible';
+            document.getElementById("pause").style.visibility="hidden";
+            return;
+        }
+        new Audio(`${musicSounds[index]}.wav`).play();
+        setTimeout(() => {
+            index = index + 1;
+            play(musicSounds, intervals, index);
+        }, intervals[index]);
+    }else{
+        pauseIndex=index;
+    }
 }
 
 var sounds = [];
@@ -64,7 +92,6 @@ var timeIntervals = [];
 function playMusic(event) {
     var sound = event.getAttribute("data-audio");
     var currentElementId = event.getAttribute("id");
-    createNote(sound);
     var audioPlayer = new Audio(`${sound}.wav`);
     document.getElementById(currentElementId).classList.add('play');
     setInterval(() => {

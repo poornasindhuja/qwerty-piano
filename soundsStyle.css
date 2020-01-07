@@ -3,10 +3,21 @@
     padding: 0px;
     width: 100%;
     height:1024px;
-    /*background-image: url("wave.jpg");
+    background-image: url("wave.jpg");
     background-repeat: no-repeat;
-    background-size: cover;*/
+    background-size: cover;
  }
+
+img{
+     width:80px;
+     height: 80px;
+     border-radius: 50%;
+ }
+
+#controls >div{
+    display: inline;
+}
+
  #content{    
                 align-content: center;
             }
@@ -64,7 +75,6 @@
             
             .play{
                 border: 2px solid green;
-                /*background: transparent !important;*/
                 animation: animate 1s linear 0s;
             }
             @keyframes animate{
@@ -81,40 +91,3 @@
                     opacity:1;
                 }
             }
-           /* .music{
-                padding-top:25vh;
-                height: 50vh;
-                background-repeat: repeat-x;
-                background: url(images.png);
-                animation: music .2s linear ;
-            }
-            @keyframes music{
-                0%{
-                    background-position: 0% 0%;
-                }
-                100%{
-                    background-position: 100% 0%;
-                }
-            }*/
-            .img-fly{
-                width: 60px;
-                height: 60px;
-                position: relative;
-                -webkit-animation: mymove 2s infinite; 
-                animation: mymove 2s infinite;
-              }
-            @-webkit-keyframes mymove {
-                0%{
-                    bottom:400px;
-                    left:0px;
-                }
-                100%{
-                    top:0px;
-                    right:100%;
-                }
-              }
-              
-            @keyframes mymove {
-                from {left: 0px;}
-                to {left: 1000px;}
-              }
