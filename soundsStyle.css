@@ -1,93 +1,80 @@
+ html{
+     height: 100%;
+     width: 100%; 
+     background-image: url("wave.jpg");  
+     background-repeat: no-repeat;  
+     background-position: center center;
+     background-size: cover;
+     background-attachment: fixed;
+ }
+
  body{
     margin: 0px;
     padding: 0px;
     width: 100%;
-    height:1024px;
-    background-image: url("wave.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    height:100%;
+    align-content: center;
+    background: transparent !important;
  }
 
-img{
-     width:80px;
-     height: 80px;
-     border-radius: 50%;
- }
-
-#controls >div{
-    display: inline;
+#controls, #recordButtons{
+    margin: 0.6rem;
+    padding-top: 1em;
 }
 
- #content{    
-                align-content: center;
-            }
-            .buttons{
-                align-content: center;
-                margin: 0;
-                position: absolute !important;
-                top: 50%;
-                left: 50%;
-                -ms-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-            }
-            .buttons >button{
-                margin:10px;
-                width: 100px;
-                height: 100px;
-                align-content: center;
-                text-align: center;
-                color: white;
-                border: 3px solid white;
-                background:lightcoral;
-            }
-            
-            #start-recording,#stop-recording{
-                width: 200px;
-                height:40px;
-                display: block;
-                margin: 10px;
-                background-color:#5df3d2;
-                border-radius: 5%;
-                color: #7c0340;
-                align-content: center;
-                text-align: center;
-                font-size:16px;  
-            }
+#recordingTime{
+    text-align: center;
+    color:white;
+    font-size: 1em;
+}
+#content{    
+    align-content: center;
+}
+.buttons{
+    align-content: center;
+    margin: 0;
+    padding-top: 15em;
+}
 
-            #play-recording{
-                width: 200px;
-                height:40px;
-                display: block;
-                margin: 10px;
-                background-color:#5df3d2;
-                border-radius: 5%;
-                color: #7c0340;
-                align-content: center;
-                text-align: center;
-                font-size:16px;  
-            }
-            .heading{
-                color: lightcoral;
-                text-align: center;
-                padding-top: 30px;
-                font-family: 'Curlz MT';
-            }
-            
-            .play{
-                border: 2px solid green;
-                animation: animate 1s linear 0s;
-            }
-            @keyframes animate{
-                0%{
-                    transform: scale(0.8);
-                    opacity: 0.5;
-                }
-                20%{
-                    transform: scale(1);
-                    opacity: 0.8;
-                }
-                100%{
-                    transform: scale(1.2);
-                    opacity:1;
-                }
-            }
+.division{
+    width: 100%;
+    -webkit-align-content: center;
+    align-content: center;
+}
+
+.buttons >button{
+    margin:0.3rem;
+    align-content: center;
+    text-align: center;
+    color: white;
+    border: 2px solid white;
+    background:lightcoral;
+    font-size: 1em;
+}
+
+.heading{
+    color: lightcoral;
+    text-align: center;
+    left: 50%;
+    padding-top: 1.5rem;
+    font-family: 'Curlz MT';
+}
+
+.play{
+    border: 2px solid green;
+    animation: animate 1s linear 0s;
+}
+@keyframes animate{
+    0%{
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    20%{
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100%{
+        transform: scale(1.2);
+        opacity:1;
+    }
+}

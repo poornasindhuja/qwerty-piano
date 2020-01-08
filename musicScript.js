@@ -10,10 +10,13 @@ function resultCharCode(event) {
     }
 }
 
-var starttime;
+var starttime,suffex;
 
 function startRecord() {
     starttime = Date.now();
+    counting=true;
+    suffex=" ";
+    timer();
     var startButton=document.getElementById("start-recording");
     startButton.removeAttribute("record");
     startButton.setAttribute("record", "true");
@@ -22,6 +25,33 @@ function startRecord() {
     document.getElementById("play-recording").style.visibility = 'hidden';
 }
 
+function timer() {
+    if (seconds >= 60) {
+        minutes++;
+        seconds = 0;
+    }
+    if (minutes >= 60) {
+        hours++;
+        minutes = 0;
+    }
+    var m=minutes<10?("0"+minutes):minutes;
+    var s=seconds<10?"0"+seconds:seconds;
+    var h=hours<10?"0"+hours:hours;
+    document.getElementById("recordingTime").innerHTML = h+ ":" +m+ ":" + s+suffex;
+    if (counting) {
+        seconds++;
+        setTimeout(timer, 1000);
+    }
+}
+
+function stopTimer(){
+    counting=false;
+    setTimeout(() => {
+        document.getElementById("recordingTime").innerHTML=" ";
+    }, 1000);
+    seconds=0;
+    hours=0,minutes=0;
+}
 function stopRecord() {
     var startButton=document.getElementById("start-recording");
     startButton.removeAttribute("record");
@@ -30,16 +60,24 @@ function stopRecord() {
     document.getElementById("stop-recording").style.visibility='hidden';
     document.getElementById("play-recording").style.visibility = 'visible';
     timeIntervals=[];
+    localStorage.setItem("recordingTime",document.getElementById("recordingTime").innerHTML);
+    stopTimer();
+    window.alert("Record saved sucessfully");
 }
 
-var canIPlay=true;
+var canIPlay;
 var pauseIndex,musicSounds,intervals;
+var seconds=0, minutes=0, hours=0;
 
 function playRecorded() {
     document.getElementById('start-recording').style.visibility='hidden';
     document.getElementById("play-recording").style.visibility = 'hidden';
     document.getElementById("pause").style.visibility='visible';
     document.getElementById("stop").style.visibility="visible";
+    canIPlay=true;
+    counting=true;
+    suffex="/"+localStorage.getItem("recordingTime");
+    timer();
     play();
 }
 
@@ -47,17 +85,21 @@ function pause(){
     document.getElementById("resume").style.visibility="visible";
     document.getElementById("pause").style.visibility="hidden";
     canIPlay=false;
+    counting=false;
 }
 
 function resume(){
     document.getElementById("resume").style.visibility="hidden";
     document.getElementById("pause").style.visibility="visible";
     canIPlay=true;
+    counting=true;
+    timer();
     play(musicSounds,intervals,pauseIndex);
 }
 
 function stop(){
     canIPlay=false;
+    stopTimer();
     document.getElementById("stop").style.visibility="hidden";
     document.getElementById("resume").style.visibility="hidden";
     document.getElementById("pause").style.visibility="hidden";
@@ -66,14 +108,17 @@ function stop(){
 }
 
 function play(musicSounds, intervals, index){
-    if (canIPlay == true) {
+    if (canIPlay) {
         musicSounds = musicSounds || JSON.parse(localStorage.getItem("sounds-data"));
         intervals = intervals || JSON.parse(localStorage.getItem("sound-intervals"));
         index = index || 0;
         if (index > musicSounds.length - 1) {
             document.getElementById("start-recording").style.visibility = 'visible';
             document.getElementById("play-recording").style.visibility = 'visible';
+            document.getElementById("stop").style.visibility="hidden";
             document.getElementById("pause").style.visibility="hidden";
+            stopTimer();
+            suffex=null;
             return;
         }
         new Audio(`${musicSounds[index]}.wav`).play();

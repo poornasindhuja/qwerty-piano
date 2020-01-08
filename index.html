@@ -3,6 +3,8 @@
 
 <head>
     <title>Sounds</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="soundsStyle.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -11,34 +13,41 @@
 
 </head>
 
-<body class=".container-fluid " id="page" onkeydown="resultCharCode(event)">
+<body id="page" onkeydown="resultCharCode(event)">
 
     <div id="content">
         <h1 class="heading">Feeling bored with keys sound. Try Now its interesting </h1>
-        <div class="btn-group buttons">
-            <button onclick="playMusic(this)" class="musical-key" data-audio="clap" id="a">A <br>clap</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="hihat" id="s">S<br>hihat</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="kick" id="d">D<br>Kick</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="openhat" id="f">F<br>Openhat</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="boom" id="g">G<br>Boom</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="ride" id="h">H<br>Ride</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="snare" id="j">J<br>Snare</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="tom" id="k">K<br>Tom</button>
-            <button onclick="playMusic(this)" class="musical-key" data-audio="tink" id="l">L<br>Tink</button>
+        <div class="flex-wrap row  buttons ">
+            <button onclick="playMusic(this)" class="col" data-audio="clap" id="a">A <br>clap</button>
+            <button onclick="playMusic(this)" class="col" data-audio="hihat" id="s">S<br>hihat</button>
+            <button onclick="playMusic(this)" class="col" data-audio="kick" id="d">D<br>Kick</button>
+            <button onclick="playMusic(this)" class="col" data-audio="openhat" id="f">F<br>Openhat</button>
+            <button onclick="playMusic(this)" class="col" data-audio="boom" id="g">G<br>Boom</button>
+            <button onclick="playMusic(this)" class="col" data-audio="ride" id="h">H<br>Ride</button>
+            <button onclick="playMusic(this)" class="col" data-audio="snare" id="j">J<br>Snare</button>
+            <button onclick="playMusic(this)" class="col" data-audio="tom" id="k">K<br>Tom</button>
+            <button onclick="playMusic(this)" class="col" data-audio="tink" id="l">L<br>Tink</button>
         </div>
         <div style="clear: both;"></div>
-        <button onclick="startRecord()" id='start-recording' record='false'>Start Recording</button>
-        <button onclick="stopRecord()" id='stop-recording' style="visibility: hidden;">Stop Recording</button>
-        <button onclick="playRecorded()" id='play-recording' style="visibility: hidden;">Play</button>
-        <div id="controls">
-            <div id="resume" onclick="resume()" style="visibility: hidden; ">
-                <img src="resume.jpg" ></img>
+        <div id="recordButtons" class="flex-wrap row">
+            <button onclick="startRecord()" class='btn-info col-md-1 offset-md-4' id='start-recording'
+                record='false'>Start Recording</button>
+            <p id="recordingTime"></p>
+            <button onclick="stopRecord()" class='btn-info col-md-1' id='stop-recording'
+                style="visibility: hidden;">Stop Recording</button>
+            <button onclick="playRecorded()" class='btn-info col-md-1' id='play-recording'
+                style="visibility: hidden;">Play</button>
+        </div>
+
+        <div id="controls" class="flex-wrap row">
+            <div id="resume" onclick="resume()" class='btn-info col-md-1 offset-md-4' style="visibility: hidden; ">
+                Resume
             </div>
-            <div id="pause" onclick="pause()" style="visibility: hidden;">
-                <img src="pause1.png"></img>
+            <div id="pause" onclick="pause()" class='btn-info col-md-1' style="visibility: hidden;">
+                Pause
             </div>
-            <div id="stop" onclick="stop()" style="visibility: hidden;" >
-                <img src="stop.png"></img>
+            <div id="stop" onclick="stop()" class='btn-info col-md-1' style="visibility: hidden;">
+                Stop
             </div>
         </div>
     </div>
