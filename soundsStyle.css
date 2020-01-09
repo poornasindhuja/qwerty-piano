@@ -1,45 +1,60 @@
- html{
+html{
      height: 100%;
      width: 100%; 
-     background-image: url("wave.jpg");  
+     /*background-image: url("wave.jpg");  
      background-repeat: no-repeat;  
      background-position: center center;
      background-size: cover;
-     background-attachment: fixed;
- }
+     background-attachment: fixed;*/
+}
 
- body{
+body{
     margin: 0px;
     padding: 0px;
     width: 100%;
     height:100%;
     align-content: center;
     background: transparent !important;
- }
+}
 
 #controls, #recordButtons{
-    margin: 0.6rem;
+    width: 80%;
+    margin: 0px auto !important;
     padding-top: 1em;
 }
+
+.space{
+    margin:0.3rem;
+}
+
 
 #recordingTime{
     text-align: center;
     color:white;
     font-size: 1em;
+    display: inline;
 }
+
+#time{
+    width:10rem; 
+    padding:1rem; 
+    text-align:center; 
+    align-items: center;
+    margin: 5px auto; 
+    border-radius: 20%; 
+    visibility: hidden;
+    background:linear-gradient(to right,#505802,gray);
+}
+
 #content{    
     align-content: center;
 }
+
 .buttons{
     align-content: center;
-    margin: 0;
+    margin: 0px auto !important;
+    width: 80%;
     padding-top: 15em;
-}
-
-.division{
-    width: 100%;
-    -webkit-align-content: center;
-    align-content: center;
 }
 
 .buttons >button{
@@ -64,6 +79,7 @@
     border: 2px solid green;
     animation: animate 1s linear 0s;
 }
+
 @keyframes animate{
     0%{
         transform: scale(0.8);

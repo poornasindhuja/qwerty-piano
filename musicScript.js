@@ -21,6 +21,7 @@ function startRecord() {
     startButton.removeAttribute("record");
     startButton.setAttribute("record", "true");
     startButton.style.visibility='hidden';
+    document.getElementById("time").style.visibility='visible';
     document.getElementById("stop-recording").style.visibility = 'visible';
     document.getElementById("play-recording").style.visibility = 'hidden';
 }
@@ -46,6 +47,7 @@ function timer() {
 
 function stopTimer(){
     counting=false;
+    document.getElementById("time").style.visibility='hidden';
     setTimeout(() => {
         document.getElementById("recordingTime").innerHTML=" ";
     }, 1000);
@@ -60,9 +62,11 @@ function stopRecord() {
     document.getElementById("stop-recording").style.visibility='hidden';
     document.getElementById("play-recording").style.visibility = 'visible';
     timeIntervals=[];
-    localStorage.setItem("recordingTime",document.getElementById("recordingTime").innerHTML);
+    var recordingLength=document.getElementById("recordingTime").innerHTML;
+    localStorage.setItem("recordingTime",recordingLength);
     stopTimer();
-    window.alert("Record saved sucessfully");
+    document.getElementById("comment").innerHTML="You had recorded "+recordingLength+" clip";
+    //window.alert("Record saved sucessfully");
 }
 
 var canIPlay;
@@ -76,6 +80,7 @@ function playRecorded() {
     document.getElementById("stop").style.visibility="visible";
     canIPlay=true;
     counting=true;
+    document.getElementById("time").style.visibility='visible';
     suffex="/"+localStorage.getItem("recordingTime");
     timer();
     play();
